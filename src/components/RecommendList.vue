@@ -1,6 +1,6 @@
 <!-- 音乐列表组件 -->
 <template>
-  <div class="musiclist">
+  <div class="recommend">
     <div class="panel hotsongs on">
       <ul class="list">
 
@@ -16,16 +16,13 @@
           </div>
         </router-link>
       </ul>
-      <router-link :to="{name:'Recommend',params:{musictype:musictype}}" tag="div" class="more-songs">
-        查看该榜单&gt;
-      </router-link>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "MusicList",
+    name: "RecommendList",
 
     data() {
       return {
@@ -49,7 +46,7 @@
     created() {
 
       // 获取音乐列表数据
-      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" + this.musictype + "&size=5&offset=0";
+      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" + this.musictype + "&size=20&offset=0";
 
       this.$axios.get(musiclistUrl).then(res => {
 
@@ -67,7 +64,7 @@
 
 <!-- scoped表示局部生效，即当前组件生效。 -->
 <style scoped>
-  .musiclist {
+  .recommend {
     background-color: #fff;
     margin-top: 10px;
     padding: 10px 17px;

@@ -6,6 +6,8 @@ import NewMusic from "../pages/MusicList/NewMusic";
 import KingMusic from "../pages/MusicList/KingMusic";
 import SingerInfo from "../pages/Singer/SingerInfo";
 import MusicPlay from "../pages/MusicPlay";
+import Recommend from "../pages/Recommend/Recommend";
+import SearchView from "../pages/search/SearchView";
 
 Vue.use(Router);
 
@@ -46,6 +48,16 @@ export default new Router({
       path: "/play/:songid", // 音乐播放页
       name: "MusicPlay",
       component: MusicPlay
+    },
+    {
+      path:"/recommend/:musictype",
+      name:"Recommend",
+      component:Recommend
+    },
+    {
+      path:"/searchview/:searchcontent",
+      name:"SearchView",
+      component:SearchView
     }
   ]
 });

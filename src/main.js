@@ -3,7 +3,10 @@ import App from './App';
 import router from './router';
 import Axios from "axios";
 import qs from "qs";
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 
+Vue.use(VueAwesomeSwiper)
 Vue.prototype.$axios = Axios; // 网络请求
 Vue.prototype.HOST = '/baidu_music_api'; // 跨域相关，在config\index>.js中
 
