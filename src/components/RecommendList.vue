@@ -1,10 +1,11 @@
 <!-- 音乐列表组件 -->
 <template>
   <div class="recommend">
-    <div class="panel hotsongs on">
+    <div class="panel hotsongs on" v-loading.fullscreen.lock="fullscreenLoading">
       <vue-data-loading :loading="loading" :completed="completed" :listens="['pull-up']" @pull-up="pullUp">
         <ul class="list">
-          <router-link :key="index" :to="{name:'MusicPlay',params:{songid:item.song_id}}" tag="li" class="song" v-for="(item,index) in musicData">
+          <router-link :key="index" :to="{name:'MusicPlay',params:{songid:item.song_id}}" tag="li" class="song"
+                       v-for="(item,index) in musicData">
             <div class="poster">
               <img :src="item.pic_big" :alt="item.title">
             </div>
@@ -29,14 +30,12 @@
     data() {
       return {
 
-        fullscreenLoading:true,
-        musicData:[{
-
-        }], // 歌曲列表数据
-        loading: false,
+        fullscreenLoading: true, // element-ui的loading效果
+        musicData: [{}], // 歌曲列表数据
+        loading: false, // 下拉加载的loding效果
         completed: false,
         page: 1,
-        offsetNum:0 // 偏移量，这次请求的位置 = 上次请求的位置 + 偏移量 上次是0开始，这次就是20开始
+        offsetNum: 0 // 偏移量，这次请求的位置 = 上次请求的位置 + 偏移量 上次是0开始，这次就是20开始
 
       }
     },
@@ -52,20 +51,20 @@
     created() {
       this.fetchData();
     },
-    methods:{
+    methods: {
       // 获取数据
-      fetchData(){
+      fetchData() {
         this.loading = true
-        const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type="+this.musictype+"&size=20&offset="+this.offsetNum
+        const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" + this.musictype + "&size=20&offset=" + this.offsetNum
         this.$axios.get(musiclistUrl)
           .then(res => {
             // 每次获取数据，都进行叠加
             this.musicData = this.musicData.concat(res.data.song_list)
             this.loading = false
-            this.offsetNum +=20
+            this.offsetNum += 20
             this.fullscreenLoading = false
           })
-          .catch(error =>{
+          .catch(error => {
             console.log(error)
           })
       },

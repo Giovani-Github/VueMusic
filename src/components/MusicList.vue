@@ -1,7 +1,7 @@
 <!-- 音乐列表组件 -->
 <template>
   <div class="musiclist">
-    <div class="panel hotsongs on">
+    <div class="panel hotsongs on" v-loading="loading">
       <ul class="list">
 
         <!-- 遍历音乐列表 需通过路由传递歌曲id-->
@@ -29,7 +29,7 @@
 
     data() {
       return {
-
+        loading:true, // element-ui的局部loading效果
         // 音乐列表数据
         musicData: {
           song_list: []
@@ -54,6 +54,7 @@
       this.$axios.get(musiclistUrl).then(res => {
 
         this.musicData = res.data;
+        this.loading = false;
 
       }).catch(error => {
 

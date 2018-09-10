@@ -1,11 +1,12 @@
 <!-- 歌手音乐列表组件 -->
 <template>
   <div class="musiclist">
-    <div class="panel hotsongs on">
+    <div class="panel hotsongs on" v-loading.fullscreen.lock="fullscreenLoading">
       <ul class="list">
 
         <!-- 遍历音乐列表 -->
-        <router-link :key="index" :to="{name:'MusicPlay', params:{songid:item.song_id}}" tag="li" class="song" v-for="(item, index) in musicData.songlist">
+        <router-link :key="index" :to="{name:'MusicPlay', params:{songid:item.song_id}}" tag="li" class="song"
+                     v-for="(item, index) in musicData.songlist">
           <div class="poster">
             <img :src="item.pic_big" :alt="item.title"/>
           </div>
@@ -26,6 +27,7 @@
 
     data() {
       return {
+        fullscreenLoading: true, // element-ui的loading效果
 
         // 音乐列表数据
         musicData: {
@@ -39,11 +41,12 @@
 
       // 获取音乐列表数据
       // this.$route.params.singerid,路由(url传递)传递过来的参数
-      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.artist.getSongList&tinguid="+ this.$route.params.singerid +"&use_cluster=1&order=2";
+      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.artist.getSongList&tinguid=" + this.$route.params.singerid + "&use_cluster=1&order=2";
 
       this.$axios.get(musiclistUrl).then(res => {
 
         this.musicData = res.data;
+        this.fullscreenLoading = false
 
       }).catch(error => {
 

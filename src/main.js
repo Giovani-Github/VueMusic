@@ -5,10 +5,14 @@ import Axios from "axios";
 import qs from "qs";
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import { Loading } from "element-ui"
 
 Vue.use(VueAwesomeSwiper)
+Vue.use(Loading.directive)
+
 Vue.prototype.$axios = Axios; // 网络请求
 Vue.prototype.HOST = '/baidu_music_api'; // 跨域相关，在config\index>.js中
+Vue.prototype.$loading = Loading.service
 
 // -----------网络请求相关设置-------------
 // 添加请求拦截器
