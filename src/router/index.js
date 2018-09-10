@@ -4,6 +4,7 @@ import Index from "../pages/index";
 import HotMusic from "../pages/MusicList/HotMusic";
 import NewMusic from "../pages/MusicList/NewMusic";
 import KingMusic from "../pages/MusicList/KingMusic";
+import SingerInfo from "../pages/Singer/SingerInfo";
 
 Vue.use(Router);
 
@@ -18,21 +19,27 @@ export default new Router({
       redirect: "/hot", // 重定向到该地址
       children: [ // 嵌套路由
         {
-          path: '/hot',
+          path: '/hot', // 热门歌曲列表
           name: 'HotMusic',
           component: HotMusic
         },
         {
-          path: '/new',
+          path: '/new', // 最新歌曲列表
           name: 'NewMusic',
           component: NewMusic
         },
         {
-          path: '/king',
+          path: '/king', // king歌曲列表
           name: 'KingMusic',
           component: KingMusic
         }
       ]
+    },
+    {
+      // 如需要通过路由传递参数，需要在path中生明，/:singerid
+      path:"/singer/:singerid", // 歌手页
+      name:"SingerInfo",
+      component:SingerInfo
     }
   ]
 });
