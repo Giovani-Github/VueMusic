@@ -2,9 +2,10 @@
 <template>
   <!--
     tag: 编译后会把router-link标签编程tag指定标签
+    需通过路由传递歌手id
     传参：
       {name:'SingerInfo', params:{singerid:singerid }}
-      通过路由给组件传递参数，name传给那个组件，params要传递的参数。
+      通过路由给组件传递参数，name传给那个组件（router/index.js中配置的地址名称name），params要传递的参数。
       需要在router/index.js中的路由地址配置中，进行声明
       name生明的组件中包含的组件也可以接收到路由传递的参数
   -->

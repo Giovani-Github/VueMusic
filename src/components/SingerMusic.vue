@@ -5,7 +5,7 @@
       <ul class="list">
 
         <!-- 遍历音乐列表 -->
-        <li class="song" v-for="(item, index) in musicData.songlist">
+        <router-link :key="index" :to="{name:'MusicPlay', params:{songid:item.song_id}}" tag="li" class="song" v-for="(item, index) in musicData.songlist">
           <div class="poster">
             <img :src="item.pic_big" :alt="item.title"/>
           </div>
@@ -13,7 +13,7 @@
             <div class="name">{{item.title}}</div>
             <div class="author">{{item.author}}</div>
           </div>
-        </li>
+        </router-link>
 
       </ul>
     </div>

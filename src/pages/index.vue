@@ -1,7 +1,10 @@
 <template>
   <div class="container">
+    <!-- 音乐榜单导航 -->
     <MusicNav/>
+    <!-- 各音乐榜单列表 -->
     <router-view></router-view>
+    <!-- 歌手列表 -->
     <Singer/>
   </div>
 </template>

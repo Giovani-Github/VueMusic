@@ -4,8 +4,9 @@
     <div class="panel hotsongs on">
       <ul class="list">
 
-        <!-- 遍历音乐列表 -->
-        <li class="song" v-for="(item, index) in musicData.song_list">
+        <!-- 遍历音乐列表 需通过路由传递歌曲id-->
+        <router-link :key="index" :to="{name:'MusicPlay', params:{songid:item.song_id}}" tag="li" class="song"
+                     v-for="(item, index) in musicData.song_list">
           <div class="poster">
             <img :src="item.pic_big" :alt="item.title"/>
           </div>
@@ -13,7 +14,7 @@
             <div class="name">{{item.title}}</div>
             <div class="author">{{item.author}}</div>
           </div>
-        </li>
+        </router-link>
 
       </ul>
     </div>
@@ -37,7 +38,7 @@
 
     // 使用者给该组件传递的参数
     props: {
-      musictype:{
+      musictype: {
         type: String,
         default: "1"
       }
@@ -46,7 +47,7 @@
     created() {
 
       // 获取音乐列表数据
-      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type="+this.musictype+"&size=5&offset=0";
+      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" + this.musictype + "&size=5&offset=0";
 
       this.$axios.get(musiclistUrl).then(res => {
 

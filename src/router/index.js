@@ -5,6 +5,7 @@ import HotMusic from "../pages/MusicList/HotMusic";
 import NewMusic from "../pages/MusicList/NewMusic";
 import KingMusic from "../pages/MusicList/KingMusic";
 import SingerInfo from "../pages/Singer/SingerInfo";
+import MusicPlay from "../pages/MusicPlay";
 
 Vue.use(Router);
 
@@ -37,9 +38,14 @@ export default new Router({
     },
     {
       // 如需要通过路由传递参数，需要在path中生明，/:singerid
-      path:"/singer/:singerid", // 歌手页
-      name:"SingerInfo",
-      component:SingerInfo
+      path: "/singer/:singerid", // 歌手页
+      name: "SingerInfo", // 携带参数是，所使用的路径名称
+      component: SingerInfo
+    },
+    {
+      path: "/play/:songid", // 音乐播放页
+      name: "MusicPlay",
+      component: MusicPlay
     }
   ]
 });
