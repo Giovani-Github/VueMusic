@@ -2,35 +2,41 @@
 <template>
   <div class="recommend">
     <div class="panel hotsongs on">
-      <ul class="list">
-
-        <!-- 遍历音乐列表 需通过路由传递歌曲id-->
-        <router-link :key="index" :to="{name:'MusicPlay', params:{songid:item.song_id}}" tag="li" class="song"
-                     v-for="(item, index) in musicData.song_list">
-          <div class="poster">
-            <img :src="item.pic_big" :alt="item.title"/>
-          </div>
-          <div class="info">
-            <div class="name">{{item.title}}</div>
-            <div class="author">{{item.author}}</div>
-          </div>
-        </router-link>
-      </ul>
+      <vue-data-loading :loading="loading" :completed="completed" :listens="['pull-up']" @pull-up="pullUp">
+        <ul class="list">
+          <router-link :key="index" :to="{name:'MusicPlay',params:{songid:item.song_id}}" tag="li" class="song" v-for="(item,index) in musicData">
+            <div class="poster">
+              <img :src="item.pic_big" :alt="item.title">
+            </div>
+            <div class="info">
+              <div class="name">{{ item.title }}</div>
+              <div class="author">{{ item.author }}</div>
+            </div>
+          </router-link>
+        </ul>
+      </vue-data-loading>
     </div>
   </div>
 </template>
 
 <script>
+  // 上拉加载和下拉刷新组件
+  import VueDataLoading from 'vue-data-loading';
+
   export default {
     name: "RecommendList",
 
     data() {
       return {
 
-        // 音乐列表数据
-        musicData: {
-          song_list: []
-        }
+        fullscreenLoading:true,
+        musicData:[{
+
+        }], // 歌曲列表数据
+        loading: false,
+        completed: false,
+        page: 1,
+        offsetNum:0 // 偏移量，这次请求的位置 = 上次请求的位置 + 偏移量 上次是0开始，这次就是20开始
 
       }
     },
@@ -44,20 +50,32 @@
     },
 
     created() {
-
-      // 获取音乐列表数据
-      const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" + this.musictype + "&size=20&offset=0";
-
-      this.$axios.get(musiclistUrl).then(res => {
-
-        this.musicData = res.data;
-
-      }).catch(error => {
-
-        console.log(error);
-
-      });
-
+      this.fetchData();
+    },
+    methods:{
+      // 获取数据
+      fetchData(){
+        this.loading = true
+        const musiclistUrl = this.HOST + "/v1/restserver/ting?method=baidu.ting.billboard.billList&type="+this.musictype+"&size=20&offset="+this.offsetNum
+        this.$axios.get(musiclistUrl)
+          .then(res => {
+            // 每次获取数据，都进行叠加
+            this.musicData = this.musicData.concat(res.data.song_list)
+            this.loading = false
+            this.offsetNum +=20
+            this.fullscreenLoading = false
+          })
+          .catch(error =>{
+            console.log(error)
+          })
+      },
+      pullUp() {
+        this.fetchData()
+        this.page++
+      }
+    },
+    components: {
+      VueDataLoading
     }
   }
 </script>
